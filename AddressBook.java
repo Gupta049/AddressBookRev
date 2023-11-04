@@ -30,9 +30,9 @@ class ContactPerson{
 }
 
 public class AddressBook {
+     static int indexValue = 0;
 
-
-    static void addContacts(ContactPerson contactArray[]){
+    static void addContacts(ContactPerson contactArray[]) {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("enter first name : ");
@@ -52,63 +52,70 @@ public class AddressBook {
         System.out.print("enter your email id : ");
         String emailIdOfPerson = sc.next();
 
-        contactArray[0] = new ContactPerson(firstNameOfPerson, lastNameOfPerson, addressOfPerson, cityOfPerson, stateOfPerson, emailIdOfPerson, zipCode, mobileNumber);
+        while (indexValue >= 0 && indexValue < contactArray.length) {
+            contactArray[indexValue] = new ContactPerson(firstNameOfPerson, lastNameOfPerson, addressOfPerson, cityOfPerson, stateOfPerson, emailIdOfPerson, zipCode, mobileNumber);
+            indexValue++;
+            break;
+        }
     }
 
     static void editContact(String name, ContactPerson contactArray[]){
         Scanner sc = new Scanner(System.in);
 
         boolean flag = false;
-        if (contactArray[0].firstName.equals(name)){
-            flag = true;
-            if (flag == true){
-                System.out.println("1. LastName 2.Address 3.City 4.State 5.PostalCode 6.PhoneNumber 7.EmailId 8. Exit");
-                int editOption = sc.nextInt();
-                switch (editOption){
-                    case 1:
-                        System.out.println("Edit last name ");
-                        String editLastName = sc.next();
-                        contactArray[0].lastName = editLastName;
-                        break;
-                    case 2:
-                        System.out.print("Edit address:");
-                        String editAddress = sc.next();
-                        contactArray[0].Address = editAddress;
-                        break;
-                    case 3:
-                        System.out.print("Edit city:");
-                        String editCity = sc.next();
-                        contactArray[0].city = editCity;
-                        break;
-                    case 4:
-                        System.out.print("Edit State:");
-                        String editState = sc.next();
-                        contactArray[0].state = editState;
-                        break;
-                    case 5:
-                        System.out.print("Edit zipCode:");
-                        int editZipCode = sc.nextInt();
-                        contactArray[0].zip = editZipCode;
-                        break;
-                    case 6:
-                        System.out.print("Edit Mobile:");
-                        long editMobileNum = sc.nextLong();
-                        contactArray[0].phoneNumber = editMobileNum;
-                        break;
-                    case 7:
-                        System.out.print("Edit EmailId:");
-                        String editEmailId = sc.next();
-                        contactArray[0].email = editEmailId;
-                        break;
-                    case 8:
-                        System.exit(100);
-                        break;
-                    default:
-                        System.out.println("Invalid Choice!!!");
-                        break;
+        for(int i = 0; i<contactArray.length; i++) {
+            if (contactArray[i].firstName.equals(name)) {
+                flag = true;
+                if (flag == true) {
+                    System.out.println("1. LastName 2.Address 3.City 4.State 5.PostalCode 6.PhoneNumber 7.EmailId 8. Exit");
+                    int editOption = sc.nextInt();
+                    switch (editOption) {
+                        case 1:
+                            System.out.println("Edit last name ");
+                            String editLastName = sc.next();
+                            contactArray[i].lastName = editLastName;
+                            break;
+                        case 2:
+                            System.out.print("Edit address:");
+                            String editAddress = sc.next();
+                            contactArray[i].Address = editAddress;
+                            break;
+                        case 3:
+                            System.out.print("Edit city:");
+                            String editCity = sc.next();
+                            contactArray[i].city = editCity;
+                            break;
+                        case 4:
+                            System.out.print("Edit State:");
+                            String editState = sc.next();
+                            contactArray[i].state = editState;
+                            break;
+                        case 5:
+                            System.out.print("Edit zipCode:");
+                            int editZipCode = sc.nextInt();
+                            contactArray[i].zip = editZipCode;
+                            break;
+                        case 6:
+                            System.out.print("Edit Mobile:");
+                            long editMobileNum = sc.nextLong();
+                            contactArray[i].phoneNumber = editMobileNum;
+                            break;
+                        case 7:
+                            System.out.print("Edit EmailId:");
+                            String editEmailId = sc.next();
+                            contactArray[i].email = editEmailId;
+                            break;
+                        case 8:
+                            System.exit(100);
+                            break;
+                        default:
+                            System.out.println("Invalid Choice!!!");
+                            break;
+                    }
+                    break;
+                } else {
+                    flag = false;
                 }
-            }else {
-                flag = false;
             }
         }
         if (flag == false){
@@ -121,10 +128,12 @@ public class AddressBook {
         System.out.println("================");
         System.out.println();
 
-        if(contactArray[0] == null)
-            System.out.println("Empty Address Book!!! ");
-        else
-            contactArray[0].displayContactDetails();
+        for(int i = 0; i<contactArray.length; i++) {
+            if (contactArray[i] == null)
+                System.out.println("Empty Address Book!!! ");
+            else
+                contactArray[i].displayContactDetails();
+        }
 
         System.out.println();
         System.out.println("================");
@@ -132,12 +141,15 @@ public class AddressBook {
 
     static void deleteContact(String delName, ContactPerson contactArray[]){
         boolean flag = false;
-        if (contactArray[0] == null)
-            System.out.println();
-        else {
-            if (contactArray[0].firstName.equals(delName)){
-                flag = true;
-                contactArray[0]=null;
+        for (int i=0; i<contactArray.length; i++) {
+            if (contactArray[i] == null)
+                System.out.println();
+            else {
+                if (contactArray[i].firstName.equals(delName)) {
+                    flag = true;
+                    contactArray[i] = null;
+                    break;
+                }
             }
         }
         if (flag == false)
@@ -147,7 +159,7 @@ public class AddressBook {
         System.out.println("Welcome to Address Book");
         Scanner sc = new Scanner(System.in);
         int temp = 1;
-        ContactPerson contactArray[] = new ContactPerson[1];
+        ContactPerson contactArray[] = new ContactPerson[2];
         while (temp != 0) {
             System.out.println("1. Add_Contact 2.Edit 3. Display 4. DeleteContact 5. Exit");
             System.out.print("Enter the Choice value  ");
@@ -173,7 +185,7 @@ public class AddressBook {
                     temp = 0;
                     break;
                 default:
-                    System.out.println("invalid choice & ");
+                    System.out.println("invalid choice");
             }
         }
     }
