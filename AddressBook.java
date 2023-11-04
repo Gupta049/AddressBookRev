@@ -62,7 +62,7 @@ public class AddressBook {
         if (contactArray[0].firstName.equals(name)){
             flag = true;
             if (flag == true){
-                System.out.println("1. LastName 2.Address 3.City 4.State 5.PostalCode 6.PhoneNumber 7.EmailId");
+                System.out.println("1. LastName 2.Address 3.City 4.State 5.PostalCode 6.PhoneNumber 7.EmailId 8. Exit");
                 int editOption = sc.nextInt();
                 switch (editOption){
                     case 1:
@@ -130,13 +130,26 @@ public class AddressBook {
         System.out.println("================");
     }
 
+    static void deleteContact(String delName, ContactPerson contactArray[]){
+        boolean flag = false;
+        if (contactArray[0] == null)
+            System.out.println();
+        else {
+            if (contactArray[0].firstName.equals(delName)){
+                flag = true;
+                contactArray[0]=null;
+            }
+        }
+        if (flag == false)
+            System.out.println(delName + " is not found in Address Book");
+    }
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book");
         Scanner sc = new Scanner(System.in);
         int temp = 1;
         ContactPerson contactArray[] = new ContactPerson[1];
         while (temp != 0) {
-            System.out.println("1. Add_Contact 2.Edit 3. Display 4. Exit");
+            System.out.println("1. Add_Contact 2.Edit 3. Display 4. DeleteContact 5. Exit");
             System.out.print("Enter the Choice value  ");
             int choice = sc.nextInt();
             switch (choice) {
@@ -152,6 +165,11 @@ public class AddressBook {
                     displayContacts(contactArray);
                     break;
                 case 4:
+                    System.out.print("Enter person name you want to delete the details:");
+                    String delName = sc.next();
+                    deleteContact(delName, contactArray);
+                    break;
+                case 5:
                     temp = 0;
                     break;
                 default:
