@@ -3,10 +3,10 @@ package com.bridgelabz;
 import java.util.Scanner;
 class ContactPerson{
     String firstName, lastName, Address, city, state, email;
-    int zip;
+    int zip, uniqueNumber;
     long phoneNumber;
 
-    public ContactPerson(String firstName, String lastName, String Address, String city, String state, String email, int zip, long phoneNumber){
+    public ContactPerson(String firstName, String lastName, String Address, String city, String state, String email, int zip, long phoneNumber, int uniqueNumber){
         this.firstName = firstName;
         this.lastName = lastName;
         this.Address = Address;
@@ -15,6 +15,7 @@ class ContactPerson{
         this.zip = zip;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.uniqueNumber = uniqueNumber;
     }
     void displayContactDetails(){
         System.out.println(" Entered Address by user : ");
@@ -26,11 +27,13 @@ class ContactPerson{
         System.out.println("Postal Code(Zip Code) : " + zip );
         System.out.println("Phone Number : " + phoneNumber);
         System.out.println("Email : " + email);
+        System.out.println("Unique number : " + uniqueNumber);
     }
 }
 
 public class AddressBook {
      static int indexValue = 0;
+     static int number = 1;
 
     static void addContacts(ContactPerson contactArray[]) {
         Scanner sc = new Scanner(System.in);
@@ -53,7 +56,10 @@ public class AddressBook {
         String emailIdOfPerson = sc.next();
 
         while (indexValue >= 0 && indexValue < contactArray.length) {
-            contactArray[indexValue] = new ContactPerson(firstNameOfPerson, lastNameOfPerson, addressOfPerson, cityOfPerson, stateOfPerson, emailIdOfPerson, zipCode, mobileNumber);
+            int uniqueNumber = number;
+            number++;
+
+            contactArray[indexValue] = new ContactPerson(firstNameOfPerson, lastNameOfPerson, addressOfPerson, cityOfPerson, stateOfPerson, emailIdOfPerson, zipCode, mobileNumber, uniqueNumber);
             indexValue++;
             break;
         }
@@ -145,11 +151,11 @@ public class AddressBook {
             if (contactArray[i] == null)
                 System.out.println();
             else {
-                if (contactArray[i].firstName.equals(delName)) {
-                    flag = true;
-                    contactArray[i] = null;
-                    break;
-                }
+                    if (contactArray[i].firstName.equals(delName)) {
+                        flag = true;
+                        contactArray[i] = null;
+                        break;
+                    }
             }
         }
         if (flag == false)
@@ -158,8 +164,9 @@ public class AddressBook {
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book");
         Scanner sc = new Scanner(System.in);
-        int temp = 1;
-        ContactPerson contactArray[] = new ContactPerson[2];
+        //int temp = 1;
+        byte temp = 1 ;
+	ContactPerson contactArray[] = new ContactPerson[2];
         while (temp != 0) {
             System.out.println("1. Add_Contact 2.Edit 3. Display 4. DeleteContact 5. Exit");
             System.out.print("Enter the Choice value  ");
