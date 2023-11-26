@@ -1,6 +1,7 @@
 package com.bridgelabz;
 
 import java.util.Scanner;
+
 class ContactPerson{
     String firstName, lastName, Address, city, state, email;
     int zip, uniqueNumber;
@@ -55,14 +56,36 @@ public class AddressBook {
         System.out.print("enter your email id : ");
         String emailIdOfPerson = sc.next();
 
-        while (indexValue >= 0 && indexValue < contactArray.length) {
-            int uniqueNumber = number;
-            number++;
+        String fullName = firstNameOfPerson + " " + lastNameOfPerson;
+        boolean isDuplicate = checkDuplicate(fullName, contactArray);
+        if (isDuplicate){
+            System.out.println("Contact already exists in the Contact Array List.");
+        }else{
+            while (indexValue >= 0 /*&& indexValue < contactArray.length*/) {
+                    int uniqueNumber = number;
+                    number++;
 
-            contactArray[indexValue] = new ContactPerson(firstNameOfPerson, lastNameOfPerson, addressOfPerson, cityOfPerson, stateOfPerson, emailIdOfPerson, zipCode, mobileNumber, uniqueNumber);
-            indexValue++;
-            break;
+                    if (uniqueNumber <= lengthOfContact && indexValue < contactArray.length) {
+                        contactArray[indexValue] = new ContactPerson(firstNameOfPerson, lastNameOfPerson, addressOfPerson, cityOfPerson, stateOfPerson, emailIdOfPerson, zipCode, mobileNumber, uniqueNumber);
+                        indexValue++;
+                        break;
+                    } else {
+                        System.out.println("This ContactList array having size is full, if you want to add new contact into this array again increase the size of an ContactList Array");
+                        break;
+                    }
+            }
         }
+    }
+    static boolean checkDuplicate(String fullName, ContactPerson contactArray[]){
+        for (ContactPerson contact : contactArray){
+            if (contact != null){
+                String existContactName = contact.firstName + " " + contact.lastName;
+                if (existContactName.equals(fullName)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     static void editContact(String name, ContactPerson contactArray[]){
@@ -161,12 +184,24 @@ public class AddressBook {
         if (flag == false)
             System.out.println(delName + " is not found in Address Book");
     }
+    /*public boolean equals(Object object){
+        if (this == object)
+            return true;
+        if (object == null || getClass() != object.getClass())
+            return false;
+        ContactPerson contactArray = (ContactPerson) object;
+        return object == contactArray.firstName;
+    }*/
+
+    static int lengthOfContact;
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book");
         Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the value of contactList array : ");
+        lengthOfContact = sc.nextInt();
         //int temp = 1;
         byte temp = 1 ;
-	ContactPerson contactArray[] = new ContactPerson[2];
+	ContactPerson contactArray[] = new ContactPerson[lengthOfContact];
         while (temp != 0) {
             System.out.println("1. Add_Contact 2.Edit 3. Display 4. DeleteContact 5. Exit");
             System.out.print("Enter the Choice value  ");
