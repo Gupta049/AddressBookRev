@@ -264,17 +264,21 @@ public class AddressBook {
 //        }
         List<ContactPerson> searchContacts = Arrays.stream(addressBooks)
                                             .flatMap(Arrays::stream)
-                                            .filter(contact -> contact != null && (contact.city.equals(nameOfCity) || contact.state.equals(nameOfState)))
+                                            .filter(contact -> contact != null && (contact.city.equals(nameOfCity) && contact.state.equals(nameOfState)))
                                             .collect(Collectors.toList());
+        int count =0;
         if (searchContacts.isEmpty()){
             System.out.println("No Contacts found in the specified city and name of personFirstName.");
         }else {
             System.out.println("Contact in " + nameOfCity + " or " + nameOfState);
+
             for (ContactPerson contact : searchContacts){
                 String fullName = contact.toString();
+                count++;
                 System.out.println("Name of Persons in search result : " + fullName);
             }
         }
+        System.out.println(count + " number of contact person count by name or state.");
 
     }
 }
