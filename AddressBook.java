@@ -32,8 +32,10 @@ class ContactPerson{
         System.out.println("Unique number : " + uniqueNumber);
     }
 
+    @Override
     public String toString(){
-        return firstName + " " + lastName;
+        return "Name : " + firstName + " " + lastName +
+                ", " + "Address: " + Address;
     }
 }
 
@@ -211,9 +213,10 @@ public class AddressBook {
         //int temp = 1;
         byte temp = 1 ;
 	ContactPerson contactArray[] = new ContactPerson[lengthOfContact];
-	AddressBookSystem addressBookSystem = new AddressBookSystem();
+
         while (temp != 0) {
-            System.out.println("1. Add_Contact 2.Edit 3. Display 4. DeleteContact  5. searchByNameAndPersonFun 6. Exit");
+            System.out.println("===========================");
+            System.out.println("1. Add_Contact 2.Edit 3. Display 4. DeleteContact  5. searchByNameAndPersonFun 6. sort_Contacts_inAlphabetically 7. Exit");
             System.out.print("Enter the Choice value  ");
             int choice = sc.nextInt();
             switch (choice) {
@@ -241,17 +244,15 @@ public class AddressBook {
                     nameOfPersonToSearchFun(nameOfCity, nameOfstate, contactArray);
                     break;
                 case 6:
+                    sortContactsInAlphabetically(contactArray);
+                    break;
+                case 7:
                     temp = 0;
                     break;
                 default:
                     System.out.println("invalid choice");
             }
         }
-//        AddressBook addressBook = new AddressBook(contactArray);
-//        addressBookSystem.addAddressBook(addressBook);
-//        String s = addressBookSystem.toString();
-//        System.out.println(s.toUpperCase());
-
     }
 
     private static void nameOfPersonToSearchFun(String nameOfCity, String nameOfState, ContactPerson[]... addressBooks) {
@@ -280,5 +281,24 @@ public class AddressBook {
         }
         System.out.println(count + " number of contact person count by name or state.");
 
+    }
+
+    private static void sortContactsInAlphabetically(ContactPerson[] contactArray) {
+        List<ContactPerson> sortedContacts = Arrays.stream(contactArray)
+                                            .filter(Objects::nonNull)
+                                            .sorted(Comparator.comparing(person -> person.firstName + " " + person.lastName))
+                                            .collect(Collectors.toList());
+        System.out.println("Person's name sorted in alphabetically order ");
+        sortedContacts.forEach(contact -> System.out.println(contact.toString()));
+
+/*        if (sortedContacts.isEmpty()){
+            System.out.println("Empty, nothing to sort.");
+        }else {
+            System.out.println("Sorted contact alphabetically : ");
+            for (ContactPerson contact: sortedContacts){
+                contact.displayContactDetails();
+            }
+        }
+*/
     }
 }
