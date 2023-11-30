@@ -31,6 +31,10 @@ class ContactPerson{
         System.out.println("Email : " + email);
         System.out.println("Unique number : " + uniqueNumber);
     }
+
+    public String toString(){
+        return firstName + " " + lastName;
+    }
 }
 
 public class AddressBook {
@@ -232,9 +236,9 @@ public class AddressBook {
                 case 5:
                     System.out.println("Enter name of city which you want to search ");
                     String nameOfCity = sc.next();
-                    System.out.println("Name of person which you want to search in contact ");
-                    String nameOfPersonToSearch = sc.next();
-                    nameOfPersonToSearchFun(nameOfCity, nameOfPersonToSearch, contactArray);
+                    System.out.println("Enter name of state through which you want to view Persons ");
+                    String nameOfstate = sc.next();
+                    nameOfPersonToSearchFun(nameOfCity, nameOfstate, contactArray);
                     break;
                 case 6:
                     temp = 0;
@@ -250,7 +254,7 @@ public class AddressBook {
 
     }
 
-    private static void nameOfPersonToSearchFun(String nameOfCity, String nameOfPersonToSearch, ContactPerson[]... addressBooks) {
+    private static void nameOfPersonToSearchFun(String nameOfCity, String nameOfState, ContactPerson[]... addressBooks) {
         //boolean searchFound = false;
 //        for (int i=0; i<contactArray.length; i++) {
 //            if ( contactArray[i] != null && (contactArray[i].firstName.equals(nameOfPersonToSearch) || contactArray[i].city.equals(nameOfCity)))
@@ -260,14 +264,15 @@ public class AddressBook {
 //        }
         List<ContactPerson> searchContacts = Arrays.stream(addressBooks)
                                             .flatMap(Arrays::stream)
-                                            .filter(contact -> contact != null && (contact.city.equals(nameOfCity) || contact.firstName.equals(nameOfPersonToSearch)))
+                                            .filter(contact -> contact != null && (contact.city.equals(nameOfCity) || contact.state.equals(nameOfState)))
                                             .collect(Collectors.toList());
         if (searchContacts.isEmpty()){
             System.out.println("No Contacts found in the specified city and name of personFirstName.");
         }else {
-            System.out.println("Contact in " + nameOfCity + " and ");
+            System.out.println("Contact in " + nameOfCity + " or " + nameOfState);
             for (ContactPerson contact : searchContacts){
-                contact.displayContactDetails();
+                String fullName = contact.toString();
+                System.out.println("Name of Persons in search result : " + fullName);
             }
         }
 
