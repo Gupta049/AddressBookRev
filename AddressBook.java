@@ -1,6 +1,7 @@
 package com.bridgelabz;
 
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 class ContactPerson{
     String firstName, lastName, Address, city, state, email;
@@ -35,6 +36,10 @@ class ContactPerson{
 public class AddressBook {
      static int indexValue = 0;
      static int number = 1;
+    private ContactPerson[] contacts;
+    public AddressBook(ContactPerson[] contacts) {
+        this.contacts = contacts;
+    }
 
     static void addContacts(ContactPerson contactArray[]) {
         Scanner sc = new Scanner(System.in);
@@ -202,8 +207,9 @@ public class AddressBook {
         //int temp = 1;
         byte temp = 1 ;
 	ContactPerson contactArray[] = new ContactPerson[lengthOfContact];
+	AddressBookSystem addressBookSystem = new AddressBookSystem();
         while (temp != 0) {
-            System.out.println("1. Add_Contact 2.Edit 3. Display 4. DeleteContact 5. Exit");
+            System.out.println("1. Add_Contact 2.Edit 3. Display 4. DeleteContact  5. searchByNameAndPersonFun 6. Exit");
             System.out.print("Enter the Choice value  ");
             int choice = sc.nextInt();
             switch (choice) {
@@ -224,11 +230,46 @@ public class AddressBook {
                     deleteContact(delName, contactArray);
                     break;
                 case 5:
+                    System.out.println("Enter name of city which you want to search ");
+                    String nameOfCity = sc.next();
+                    System.out.println("Name of person which you want to search in contact ");
+                    String nameOfPersonToSearch = sc.next();
+                    nameOfPersonToSearchFun(nameOfCity, nameOfPersonToSearch, contactArray);
+                    break;
+                case 6:
                     temp = 0;
                     break;
                 default:
                     System.out.println("invalid choice");
             }
         }
+//        AddressBook addressBook = new AddressBook(contactArray);
+//        addressBookSystem.addAddressBook(addressBook);
+//        String s = addressBookSystem.toString();
+//        System.out.println(s.toUpperCase());
+
+    }
+
+    private static void nameOfPersonToSearchFun(String nameOfCity, String nameOfPersonToSearch, ContactPerson[]... addressBooks) {
+        //boolean searchFound = false;
+//        for (int i=0; i<contactArray.length; i++) {
+//            if ( contactArray[i] != null && (contactArray[i].firstName.equals(nameOfPersonToSearch) || contactArray[i].city.equals(nameOfCity)))
+//                System.out.println(nameOfPersonToSearch + " found in ContactList at index " + i + " in Address Book .");
+//            else
+//                System.out.println("Person not found in ContactList of Address Book or Empty ContactList check once and again search ");
+//        }
+        List<ContactPerson> searchContacts = Arrays.stream(addressBooks)
+                                            .flatMap(Arrays::stream)
+                                            .filter(contact -> contact != null && (contact.city.equals(nameOfCity) || contact.firstName.equals(nameOfPersonToSearch)))
+                                            .collect(Collectors.toList());
+        if (searchContacts.isEmpty()){
+            System.out.println("No Contacts found in the specified city and name of personFirstName.");
+        }else {
+            System.out.println("Contact in " + nameOfCity + " and ");
+            for (ContactPerson contact : searchContacts){
+                contact.displayContactDetails();
+            }
+        }
+
     }
 }
